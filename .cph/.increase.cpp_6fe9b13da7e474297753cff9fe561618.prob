@@ -1,1 +1,0 @@
-{"name":"Local: increase","url":"d:\\Codeforces\\increase.cpp","tests":[{"id":1789755415620,"input":"5\n3 2 5 1 7","output":"5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codeforces\\increase.cpp","group":"local","local":true}

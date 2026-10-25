@@ -1,0 +1,7 @@
+# IDE and tools
+.cph/
+.vscode/
+.continue/
+
+# Build outputs
+output/

@@ -29,30 +29,12 @@ using vll = vector<long long>;
 void Solve(){
     ll n = 0, x = 0, y = 0;
     cin >> n >> x >> y;
-    vll pmt(n+1,0); ll val = n;
-    ll sum_x = 0, sum_y = 0;
-    FOR(i,1,n+1){
-        if(i % x == 0){
-            pmt[i] = val;
-            val--;
-        }
-    }
-    ll temp = 1;
-    FOR(i,1,val){
-        if(i % y == 0){
-            if(pmt[i] == 0){
-                pmt[i] = temp;
-                temp++;
-            }
-        }
-    }
-
-    FOR(i,1,n+1){
-        if(i % x == 0) sum_x += pmt[i];
-        if(i % y == 0) sum_y += pmt[i];
-    }
-
-    cout << sum_x - sum_y << "\n";
+    ll cnt_x = n/x;
+    ll cnt_y = n/y;
+    ll z = n/lcm(x,y);
+    cnt_x = cnt_x - z; cnt_y = cnt_y - z;
+    ll ans = ((n*(n+1))/2) - ((n-cnt_x)*(n-cnt_x+1)/2) - (cnt_y*(cnt_y+1)/2) ;
+    cout << ans <<"\n";
 
 }
 int main() {

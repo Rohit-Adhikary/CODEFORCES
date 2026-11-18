@@ -26,15 +26,106 @@ using vll = vector<long long>;
 #define mod 1e9 + 7
 #define Rohit_Adhikari cerr << "Time: " << 1.0 * (end_time - start_time) / CLOCKS_PER_SEC << "s\n";
 
-void Solve(){
-    ll n; cin >> n; vll v(n);
-    set<ll> s;
-    FOR(i,0,n){
-        cin >> v[i];
-        s.insert(v[i]);
+vll seive(ll n) {
+    if (n < 2) return {};
+    vector<bool> is_prime(n + 1, true);
+    is_prime[0] = is_prime[1] = false;
+    for (ll i = 2; i * i <= n; i++) {
+        if (is_prime[i]) {
+            for (ll j = i * i; j <= n; j += i) {
+                is_prime[j] = false;
+            }
+        }
     }
-    
+    vll primes;
+    for (ll i = 2; i <= n; i++) {
+        if (is_prime[i]) {
+            primes.push_back(i);
+        }
+    }
+    return primes;
+}
 
+vll prime_divisor(ll n) {
+    vll divisors;
+    for (ll i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            divisors.push_back(i);
+            while (n % i == 0) {
+                n /= i;
+            }
+        }
+    }
+    if (n > 1) {
+        divisors.push_back(n);
+    }
+    return divisors;
+}
+
+vll segemented_seive(ll a, ll b) {
+    if (b < 2 || a > b) return {};
+    if (a < 2) a = 2;
+    ll limit = sqrt(b);
+    vector<bool> mark(limit + 1, true);
+    for (ll i = 2; i * i <= limit; i++) {
+        if (mark[i]) {
+            for (ll j = i * i; j <= limit; j += i) {
+                mark[j] = false;
+            }
+        }
+    }
+    vll primes;
+    for (ll i = 2; i <= limit; i++) {
+        if (mark[i]) {
+            primes.push_back(i);
+        }
+    }
+    vector<bool> is_prime(b - a + 1, true);
+    for (ll p : primes) {
+        ll start = max(p * p, ((a + p - 1) / p) * p);
+        for (ll j = start; j <= b; j += p) {
+            is_prime[j - a] = false;
+        }
+    }
+    vll res;
+    for (ll i = 0; i <= b - a; i++) {
+        if (is_prime[i]) {
+            res.push_back(a + i);
+        }
+    }
+    return res;
+}
+
+vll prefix_sum(vll v) {
+    ll n = v.size();
+    for (ll i = 1; i < n; i++) {
+        v[i] += v[i - 1];
+    }
+    return v;
+}
+
+vll suffix_sum(vll v) {
+    ll n = v.size();
+    for (ll i = n - 2; i >= 0; i--) {
+        v[i] += v[i + 1];
+    }
+    return v;
+}
+
+void Solve(){
+    ll n; cin >> n;
+    ll m = n * (n-1) / 2;
+    vll v(m); FOR(i,0,m) cin >> v[i];
+    ll x = n - 1, i = 0;
+
+    sort(all(v));
+    while(x > 0){
+        cout << v[i] << " ";
+
+        i += x;
+        x--;
+    }
+    cout << (ll)1e9 <<"\n";
 }
 int main() {
     fast;
